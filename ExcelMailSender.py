@@ -4,7 +4,7 @@ import smtplib
 from email.mime.text import MIMEText
 from config import * 
 
-def send_async_email(who, msg):
+def send_email(who, msg):
 	msg = MIMEText(msg)
 	msg['Subject'] = MAIL_SUBJECT
 	msg['To'] = who
