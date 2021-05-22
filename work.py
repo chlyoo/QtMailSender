@@ -23,13 +23,17 @@ class WorkSpace(QWidget):
 		file = QFileDialog.getOpenFileName()
 		if file[0]!='':
 			filename = file[0].split('/')
-			if(".xls" in filename):
-				self.df = pd.read_excel(file,header=0)
-			elif(".csv" in filename):
-				self.df = pd.read_csv(file)
+			# excel
+			if(".xls" in file[0]):
+				self.df = pd.read_excel(file[0],header=0)
+			#csv
+			elif(".csv" in file[0]):
+				self.df = pd.read_csv(file[0])
+		self.show_dftable()
 
 	def show_dftable(self):
-		pass
+		model = DataFrameModel(self.df)
+		self.tableView.setModel(model)
 
 	def select_columns(self):
 		pass
@@ -60,11 +64,15 @@ class WorkSpace(QWidget):
 		msg = MIMEText(msg)
 		msg['Subject'] = MAIL_SUBJECT
 		msg['To'] = who
+		if conn is None:
+			print("offline")
+			pass
 		conn.sendmail(MAIL_SENDER, who, msg.as_string())
 		print(f"sent to{who}")
 
 def main():
 	import sys
+	QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
 	app = QApplication(sys.argv)
 	ui_file = QFile("MainWindow.ui")
 	loader = QUiLoader()

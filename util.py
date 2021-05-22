@@ -1,3 +1,5 @@
 import smtplib
-
-conn = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+try:
+    conn = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+except:
+    conn = None
